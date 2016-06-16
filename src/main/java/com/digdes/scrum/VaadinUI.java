@@ -1,5 +1,6 @@
 package com.digdes.scrum;
 
+import com.digdes.scrum.dao.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import com.digdes.scrum.model.entity.Customer;
@@ -35,7 +36,7 @@ public class VaadinUI extends UI {
 		this.editor = editor;
 		this.grid = new Grid();
 		this.filter = new TextField();
-		this.addNewBtn = new Button("New customer", FontAwesome.PLUS);
+		this.addNewBtn = new Button("Добавить фичу", FontAwesome.ALIGN_RIGHT);
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public class VaadinUI extends UI {
 		grid.setHeight(300, Unit.PIXELS);
 		grid.setColumns("id", "firstName", "lastName");
 
-		filter.setInputPrompt("Filter by last name");
+		filter.setInputPrompt("Поиск по названию");
 
 		// Hook logic to components
 

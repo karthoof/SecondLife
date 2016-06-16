@@ -1,4 +1,4 @@
-package com.digdes.scrum;
+package com.digdes.scrum.dao;
 
 import java.util.List;
 

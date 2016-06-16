@@ -1,5 +1,6 @@
 package com.digdes.scrum;
 
+import com.digdes.scrum.dao.CustomerRepository;
 import com.digdes.scrum.model.entity.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -35,13 +36,13 @@ public class CustomerEditor extends VerticalLayout {
 	private Customer customer;
 
 	/* Fields to edit properties in Customer entity */
-	TextField firstName = new TextField("First name");
-	TextField lastName = new TextField("Last name");
+	TextField firstName = new TextField("Название");
+	TextField lastName = new TextField("Описание");
 
 	/* Action buttons */
-	Button save = new Button("Save", FontAwesome.SAVE);
-	Button cancel = new Button("Cancel");
-	Button delete = new Button("Delete", FontAwesome.TRASH_O);
+	Button save = new Button("Сохранить", FontAwesome.SAVE);
+	Button cancel = new Button("Отмена");
+	Button delete = new Button("Удалить", FontAwesome.TRASH_O);
 	CssLayout actions = new CssLayout(save, cancel, delete);
 
 	@Autowired
