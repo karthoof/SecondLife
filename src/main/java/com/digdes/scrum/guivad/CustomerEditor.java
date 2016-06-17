@@ -1,4 +1,4 @@
-package com.digdes.scrum;
+package com.digdes.scrum.guivad;
 
 import com.digdes.scrum.dao.CustomerRepository;
 import com.digdes.scrum.model.entity.Customer;
@@ -56,9 +56,10 @@ public class CustomerEditor extends VerticalLayout {
 		actions.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		save.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-
+		//Передача кнопке объекта Листенер
 		// wire action buttons to save, delete and reset
-		save.addClickListener(e -> repository.save(customer));
+		Button.ClickListener listener = clickEvent -> repository.save(customer);
+		save.addClickListener(listener);
 		delete.addClickListener(e -> repository.delete(customer));
 		cancel.addClickListener(e -> editCustomer(customer));
 		setVisible(false);

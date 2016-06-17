@@ -1,6 +1,7 @@
-package com.digdes.scrum;
+package com.digdes.scrum.guivad;
 
 import com.digdes.scrum.dao.CustomerRepository;
+import com.vaadin.event.FieldEvents;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import com.digdes.scrum.model.entity.Customer;
@@ -16,7 +17,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-@SpringUI
+@SpringUI(path="/ui")
 @Theme("valo")
 public class VaadinUI extends UI {
 
@@ -42,10 +43,9 @@ public class VaadinUI extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		// build layout
-		HorizontalLayout actions = new HorizontalLayout(filter, addNewBtn);
-		VerticalLayout mainLayout = new VerticalLayout(actions, grid, editor);
-		setContent(mainLayout);
-
+		VerticalLayout mainLayout = new VerticalLayout( grid, editor);
+		HorizontalLayout actions = new HorizontalLayout(mainLayout, filter, addNewBtn);
+		setContent(actions);
 		// Configure layouts and components
 		actions.setSpacing(true);
 		mainLayout.setMargin(true);
