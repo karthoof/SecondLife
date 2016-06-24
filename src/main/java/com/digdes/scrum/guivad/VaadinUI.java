@@ -1,6 +1,8 @@
 package com.digdes.scrum.guivad;
 
 import com.digdes.scrum.dao.CustomerRepository;
+import com.digdes.scrum.dao.ProjectDao;
+import com.digdes.scrum.model.entity.Project;
 import com.vaadin.event.FieldEvents;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -21,7 +23,7 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("valo")
 public class VaadinUI extends UI {
 
-	private final CustomerRepository repo; //private final ProjectDao projectD;
+	private final ProjectDao projectD; //private final ProjectDao projectD;
 
 	private final CustomerEditor editor;
 
@@ -32,8 +34,8 @@ public class VaadinUI extends UI {
 	private final Button addNewBtn;
 
 	@Autowired
-	public VaadinUI(CustomerRepository repo, CustomerEditor editor) { //public VaadinUI(ProjectDao projectD, CustomerEditor editor) {
-		this.repo = repo; //this.projectD = projectD;
+	public VaadinUI(ProjectDao projectD, CustomerEditor editor) { { //public VaadinUI(ProjectDao projectD, CustomerEditor editor) {
+		this.projectD = projectD; //this.projectD = projectD;
 		this.editor = editor;
 		this.grid = new Grid();
 		this.filter = new TextField();
@@ -60,7 +62,7 @@ public class VaadinUI extends UI {
 		// Hook logic to components
 
 		// Replace listing with filtered content when user changes filter
-		filter.addTextChangeListener(e -> listCustomers(e.getText()));
+		filter.addTextChangeListener(e -> listProject(e.getText()));
 
 		// Connect selected Customer to editor or hide if none is selected
 		grid.addSelectionListener(e -> {
@@ -68,32 +70,32 @@ public class VaadinUI extends UI {
 				editor.setVisible(false);
 			}
 			else {
-				editor.editCustomer((Customer) grid.getSelectedRow());//editor.editCustomer((Project) grid.getSelectedRow());
+				editor.editProject((Project) grid.getSelectedRow());//editor.editProject((Project) grid.getSelectedRow());
 			}
 		});
 
 		// Instantiate and edit new Customer the new button is clicked
-		addNewBtn.addClickListener(e -> editor.editCustomer(new Customer("", "")));//addNewBtn.addClickListener(e -> editor.editCustomer(new Project("", "")));
+			addNewBtn.addClickListener(e -> editor.editProject(new Project("", "")));//addNewBtn.addClickListener(e -> editor.editCustomer(new Project("", "")));
 
 		// Listen changes made by the editor, refresh data from backend
 		editor.setChangeHandler(() -> {
 			editor.setVisible(false);
-			listCustomers(filter.getValue());
+			listProject(filter.getValue());
 		});
 
 		// Initialize listing
-		listCustomers(null);
+		listProject(null);
 	}
 
 	// tag::listCustomers[]
-	private void listCustomers(String text) {//	private void listProject(String text) {
+	private void listProject(String text) {//	private void listProject(String text) {
 		if (StringUtils.isEmpty(text)) {
 			grid.setContainerDataSource(
-					new BeanItemContainer(Customer.class, repo.findAll()));//new BeanItemContainer(Project.class, projectD.findAll()));
+					new BeanItemContainer(Project.class, projectD.findAll()));//new BeanItemContainer(Project.class, projectD.findAll()));
 		}
 		else {
-			grid.setContainerDataSource(new BeanItemContainer(Customer.class, //grid.setContainerDataSource(new BeanItemContainer(Project.class,
-					repo.findByLastNameStartsWithIgnoreCase(text))); //	projectD.findByNameStartsWithIgnoreCase(text)));
+			grid.setContainerDataSource(new BeanItemContainer(Project.class, //grid.setContainerDataSource(new BeanItemContainer(Project.class,
+					projectD.findByName(text))); //	projectD.findByNameStartsWithIgnoreCase(text)));
 		}
 	}
 	// end::listCustomers[]

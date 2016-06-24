@@ -32,16 +32,16 @@ import com.vaadin.ui.themes.ValoTheme;
 @UIScope
 public class CustomerEditor extends VerticalLayout {//ProjectDao
 
-	private final CustomerRepository repository; //ProjectDao projectDao
+	private final ProjectDao projectDao; //ProjectDao projectDao
 
 	/**
 	 * The currently edited customer
 	 */
-	private Customer customer; // Project project
+	private Project project; // Project project
 
 	/* Fields to edit properties in Customer entity */
-	TextField firstName = new TextField("Название"); //TextField name = new TextField("Название");
-	TextField lastName = new TextField("Описание"); //TextField description = new TextField("Описание");
+	TextField name = new TextField("Название"); //TextField name = new TextField("Название");
+	TextField description = new TextField("Описание"); //TextField description = new TextField("Описание");
 
 	/* Action buttons */
 	Button save = new Button("Сохранить", FontAwesome.SAVE);
@@ -50,10 +50,10 @@ public class CustomerEditor extends VerticalLayout {//ProjectDao
 	CssLayout actions = new CssLayout(save, cancel, delete);
 
 	@Autowired
-	public CustomerEditor(CustomerRepository repository) { //ProjectDao projectDao
-		this.repository = repository;					// this.projectDao = projectDao;
+	public CustomerEditor(ProjectDao projectDao) { //ProjectDao projectDao
+		this.projectDao = projectDao;					// this.projectDao = projectDao;
 
-		addComponents(firstName, lastName, actions); //addComponents(name, description, actions);
+		addComponents(name, description, actions); //addComponents(name, description, actions);
 
 		// Configure and style components
 		setSpacing(true);
@@ -62,10 +62,10 @@ public class CustomerEditor extends VerticalLayout {//ProjectDao
 		save.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 		//Передача кнопке объекта Листенер
 		// wire action buttons to save, delete and reset
-		Button.ClickListener listener = clickEvent -> repository.save(customer);//Button.ClickListener listener = clickEvent -> repository.save(project);
+		Button.ClickListener listener = clickEvent -> projectDao.save(project);//Button.ClickListener listener = clickEvent -> repository.save(project);
 		save.addClickListener(listener);
-		delete.addClickListener(e -> repository.delete(customer));	//delete.addClickListener(e -> projectDao.delete(project))
-		cancel.addClickListener(e -> editCustomer(customer)); //cancel.addClickListener(e -> editCustomer(project));
+		delete.addClickListener(e -> projectDao.delete(project));	//delete.addClickListener(e -> projectDao.delete(project))
+		cancel.addClickListener(e -> editCustomer(project)); //cancel.addClickListener(e -> editCustomer(project));
 		setVisible(false);
 	}
 
@@ -74,14 +74,14 @@ public class CustomerEditor extends VerticalLayout {//ProjectDao
 		void onChange();
 	}
 
-	public final void editCustomer(Customer c) { //public final void editProject(Project p)
-		final boolean persisted = c.getId() != null; //	final boolean persisted = p.getId() != null;
+	public final void editProject(Project p) { //public final void editProject(Project p)
+		final boolean persisted = p.getId() != null; //	final boolean persisted = p.getId() != null;
 		if (persisted) {
 			// Find fresh entity for editing
-			customer = repository.findOne(c.getId());//	project = projectDao.findOne(p.getId());
+			project = projectDao.findOne(p.getId());//	project = projectDao.findOne(p.getId());
 		}
 		else {
-			customer = c;//	project = p;
+			project = p;//	project = p;
 
 		}
 		cancel.setVisible(persisted);
@@ -89,14 +89,14 @@ public class CustomerEditor extends VerticalLayout {//ProjectDao
 		// Bind customer properties to similarly named fields
 		// Could also use annotation or "manual binding" or programmatically
 		// moving values from fields to entities before saving
-		BeanFieldGroup.bindFieldsUnbuffered(customer, this); //	BeanFieldGroup.bindFieldsUnbuffered(project, this);
+		BeanFieldGroup.bindFieldsUnbuffered(project, this); //	BeanFieldGroup.bindFieldsUnbuffered(project, this);
 
 		setVisible(true);
 
 		// A hack to ensure the whole form is visible
 		save.focus();
 		// Select all text in firstName field automatically
-		firstName.selectAll(); //name.selectAll();
+		name.selectAll(); //name.selectAll();
 	}
 
 	public void setChangeHandler(ChangeHandler h) {
