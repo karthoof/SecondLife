@@ -16,7 +16,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-
+//Friday
 @SpringUI(path="/ui")
 @Theme("valo")
 public class VaadinUI extends UI {
