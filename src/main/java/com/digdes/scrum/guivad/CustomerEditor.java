@@ -65,7 +65,7 @@ public class CustomerEditor extends VerticalLayout {//ProjectDao
 		Button.ClickListener listener = clickEvent -> projectDao.save(project);//Button.ClickListener listener = clickEvent -> repository.save(project);
 		save.addClickListener(listener);
 		delete.addClickListener(e -> projectDao.delete(project));	//delete.addClickListener(e -> projectDao.delete(project))
-		cancel.addClickListener(e -> editCustomer(project)); //cancel.addClickListener(e -> editCustomer(project));
+		cancel.addClickListener(e -> editProject(project)); //cancel.addClickListener(e -> editCustomer(project));
 		setVisible(false);
 	}
 
