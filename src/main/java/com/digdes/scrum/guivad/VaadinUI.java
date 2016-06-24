@@ -17,11 +17,11 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 //Friday
-@SpringUI(path="/ui")
+@SpringUI(path="/createproject")
 @Theme("valo")
 public class VaadinUI extends UI {
 
-	private final CustomerRepository repo;
+	private final CustomerRepository repo; //private final ProjectDao projectD;
 
 	private final CustomerEditor editor;
 
@@ -32,27 +32,28 @@ public class VaadinUI extends UI {
 	private final Button addNewBtn;
 
 	@Autowired
-	public VaadinUI(CustomerRepository repo, CustomerEditor editor) {
-		this.repo = repo;
+	public VaadinUI(CustomerRepository repo, CustomerEditor editor) { //public VaadinUI(ProjectDao projectD, CustomerEditor editor) {
+		this.repo = repo; //this.projectD = projectD;
 		this.editor = editor;
 		this.grid = new Grid();
 		this.filter = new TextField();
-		this.addNewBtn = new Button("Добавить фичу", FontAwesome.ALIGN_RIGHT);
+		this.addNewBtn = new Button("Новый проект", FontAwesome.PLUS);
 	}
 
 	@Override
 	protected void init(VaadinRequest request) {
 		// build layout
-		VerticalLayout mainLayout = new VerticalLayout( grid, editor);
-		HorizontalLayout actions = new HorizontalLayout(mainLayout, filter, addNewBtn);
-		setContent(actions);
+		HorizontalLayout actions = new HorizontalLayout(filter, addNewBtn);
+		VerticalLayout mainLayout = new VerticalLayout(actions, grid, editor);
+		setContent(mainLayout);
+
 		// Configure layouts and components
 		actions.setSpacing(true);
 		mainLayout.setMargin(true);
 		mainLayout.setSpacing(true);
 
 		grid.setHeight(300, Unit.PIXELS);
-		grid.setColumns("id", "firstName", "lastName");
+		grid.setColumns("id", "Называние", "Описание");
 
 		filter.setInputPrompt("Поиск по названию");
 
@@ -67,12 +68,12 @@ public class VaadinUI extends UI {
 				editor.setVisible(false);
 			}
 			else {
-				editor.editCustomer((Customer) grid.getSelectedRow());
+				editor.editCustomer((Customer) grid.getSelectedRow());//editor.editCustomer((Project) grid.getSelectedRow());
 			}
 		});
 
 		// Instantiate and edit new Customer the new button is clicked
-		addNewBtn.addClickListener(e -> editor.editCustomer(new Customer("", "")));
+		addNewBtn.addClickListener(e -> editor.editCustomer(new Customer("", "")));//addNewBtn.addClickListener(e -> editor.editCustomer(new Project("", "")));
 
 		// Listen changes made by the editor, refresh data from backend
 		editor.setChangeHandler(() -> {
@@ -85,14 +86,14 @@ public class VaadinUI extends UI {
 	}
 
 	// tag::listCustomers[]
-	private void listCustomers(String text) {
+	private void listCustomers(String text) {//	private void listProject(String text) {
 		if (StringUtils.isEmpty(text)) {
 			grid.setContainerDataSource(
-					new BeanItemContainer(Customer.class, repo.findAll()));
+					new BeanItemContainer(Customer.class, repo.findAll()));//new BeanItemContainer(Project.class, projectD.findAll()));
 		}
 		else {
-			grid.setContainerDataSource(new BeanItemContainer(Customer.class,
-					repo.findByLastNameStartsWithIgnoreCase(text)));
+			grid.setContainerDataSource(new BeanItemContainer(Customer.class, //grid.setContainerDataSource(new BeanItemContainer(Project.class,
+					repo.findByLastNameStartsWithIgnoreCase(text))); //	projectD.findByNameStartsWithIgnoreCase(text)));
 		}
 	}
 	// end::listCustomers[]
