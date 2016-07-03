@@ -18,7 +18,8 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-//Friday
+
+
 @SpringUI(path="/createproject")
 @Theme("valo")
 public class VaadinUI extends UI {
@@ -34,7 +35,7 @@ public class VaadinUI extends UI {
 	private final Button addNewBtn;
 
 	@Autowired
-	public VaadinUI(ProjectDao projectD, CustomerEditor editor) { { //public VaadinUI(ProjectDao projectD, CustomerEditor editor) {
+	public VaadinUI(ProjectDao projectD, CustomerEditor editor) {  //public VaadinUI(ProjectDao projectD, CustomerEditor editor) {
 		this.projectD = projectD; //this.projectD = projectD;
 		this.editor = editor;
 		this.grid = new Grid();
@@ -55,7 +56,7 @@ public class VaadinUI extends UI {
 		mainLayout.setSpacing(true);
 
 		grid.setHeight(300, Unit.PIXELS);
-		grid.setColumns("id", "Называние", "Описание");
+		grid.setColumns("id", "name", "description");
 
 		filter.setInputPrompt("Поиск по названию");
 

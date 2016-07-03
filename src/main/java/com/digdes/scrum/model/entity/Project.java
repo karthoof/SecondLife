@@ -30,4 +30,8 @@ public class Project {
     public Project() {
 
     }
+
+    public Project(String s, String s1) {
+
+    }
 }
